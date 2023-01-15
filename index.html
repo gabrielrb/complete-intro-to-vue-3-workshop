@@ -9,11 +9,29 @@
   <body>
     <div id="app">
       <h1>{{ name }}</h1>
-      <ul v-if="charactersList.length > 0">
-        <h3>Characters:</h3>
-        <li v-for="character in charactersList">{{ character.name }}</li>
-      </ul>
-      <h3 v-else>No Characters Registered</h3>
+      <div>
+        <label for="newCharacter">Register a new character:</label>
+        <input type="text" v-model="newCharacter">
+      </div>
+      <button @click="addCharacter()">Add Character</button>
+      <div>
+        <ul v-if="characterList.length > 0">
+          <h3>Characters:</h3>
+          <div v-for="character in characterList">
+            <li>{{ character.name }}</li>
+            <button @click="chosenCharacter(character.name)">Favorite</button>
+          </div>
+        </ul>
+        <h3 v-else>No Characters Registered</h3>
+      </div>
+      <hr />
+      <div>
+        <ul v-if="favoriteCharacterList.length > 0">
+          <h3>Favorite Characters</h3>
+          <li v-for="character in favoriteCharacterList">{{ character }}</li>
+        </ul>
+        <h3 v-else>No Favorite Characters Registered</h3>
+      </div>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -24,12 +42,24 @@
         data() {
           return {
             name: "The Bear",
-            charactersList: [
+            newCharacter: '',
+            favoriteCharacterList: [],
+            characterList: [
               { name: "Carmen" },
               { name: "Sydney Adamu" },
               { name: "Jerimovich" }
             ]
             // charactersList: []
+          }
+        },
+        methods: {
+          addCharacter() {
+            this.characterList.push({ name: this.newCharacter })
+          },
+          chosenCharacter(item) {
+            if (!this.favoriteCharacterList.includes(item)) {
+              this.favoriteCharacterList.push(item)
+            }
           }
         }
       })
