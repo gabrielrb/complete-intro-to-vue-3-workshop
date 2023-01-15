@@ -6,5 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <h1>{{ name }}</h1>
+      <ul v-if="charactersList.length > 0">
+        <h3>Characters:</h3>
+        <li v-for="character in charactersList">{{ character.name }}</li>
+      </ul>
+      <h3 v-else>No Characters Registered</h3>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            name: "The Bear",
+            charactersList: [
+              { name: "Carmen" },
+              { name: "Sydney Adamu" },
+              { name: "Jerimovich" }
+            ]
+            // charactersList: []
+          }
+        }
+      })
+
+      app.mount("#app")
+    </script>
+  </body>
 </html>
