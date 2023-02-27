@@ -10,16 +10,19 @@
     <div id="app">
       <h1>{{ name }}</h1>
       <div>
-        <label for="newCharacter">Register a new character:</label>
-        <input type="text" v-model="newCharacter">
+        <label for="character-name">Register a new character:</label>
+        <input
+          type="text"
+          v-model="newCharacter.name"
+          @keyup.enter="addCharacter"
+        />
       </div>
-      <button @click="addCharacter()">Add Character</button>
       <div>
         <ul v-if="characterList.length > 0">
           <h3>Characters:</h3>
           <div v-for="character in characterList">
             <li>{{ character.name }}</li>
-            <button @click="chosenCharacter(character.name)">Favorite</button>
+            <button @click="chosenCharacter(character)">Favorite</button>
           </div>
         </ul>
         <h3 v-else>No Characters Registered</h3>
@@ -42,7 +45,9 @@
         data() {
           return {
             name: "The Bear",
-            newCharacter: '',
+            newCharacter: {
+              name: ''
+            },
             favoriteCharacterList: [],
             characterList: [
               { name: "Carmen" },
@@ -54,11 +59,12 @@
         },
         methods: {
           addCharacter() {
-            this.characterList.push({ name: this.newCharacter })
+            this.characterList.push(this.newCharacter)
+            this.newCharacter = { name: '' }
           },
           chosenCharacter(item) {
             if (!this.favoriteCharacterList.includes(item)) {
-              this.favoriteCharacterList.push(item)
+              this.favoriteCharacterList.push(item.name)
             }
           }
         }
