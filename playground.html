@@ -17,7 +17,8 @@
         <li v-for="number in listOfNumbers">{{ number }}</li>
       </ul>
       <hr />
-      <h1>Counter</h1>
+      <h1>{{ displayTitle }}</h1>
+      <p>{{ optimizedIncrementAmount }}</p>
       <div>
         <label for="incrementAmount">Increment by:</label>
         <input type="number" v-model="incrementAmount" />
@@ -35,14 +36,34 @@
           return {
             count: 10,
             incrementAmount: 1,
+            counterTitle: 'Counter Standard',
             message: 'Hello, it works!',
             listOfNumbers: [1, 2, 3, 4, 5]
+          }
+        },
+        computed: {
+          displayTitle() {
+            if (this.count > 20) {
+              return 'Counter Standard - Very Long'
+            } else {
+              return 'Counter Standard'
+            }
+          },
+          optimizedIncrementAmount() {
+            return this.displayTitle.length * this.incrementAmount
           }
         },
         methods: {
           incrementCount() {
             this.count += this.incrementAmount
           },
+        },
+        watch: {
+          count(newValue) {
+            if (newValue > 20) {
+              this.counterTitle += ' Very Long'
+            }
+          }
         }
       })
 
